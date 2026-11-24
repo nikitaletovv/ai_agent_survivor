@@ -1,0 +1,478 @@
+/* ============================================================
+   AI Agent Survivors — UI styling (neon Tron aesthetic)
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cyan: #00e5ff;
+  --blue: #3f7bff;
+  --magenta: #ff2bd6;
+  --orange: #ff9a1f;
+  --red: #ff3b52;
+  --green: #39ff88;
+  --gold: #ffd24a;
+  --white: #e8f6ff;
+  --panel: rgba(6, 14, 26, 0.92);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #04060e;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--white);
+  user-select: none;
+}
+
+#gameCanvas {
+  position: fixed; inset: 0;
+  display: block;
+}
+
+.screen {
+  position: fixed; inset: 0;
+  display: none;
+  z-index: 10;
+}
+.screen.visible { display: flex; }
+
+/* ---------------- main menu: plain chat, минимальная стилизация ---------------- */
+#screenMenu {
+  align-items: center; justify-content: center;
+  background: #0e0f12;
+}
+
+.chatShell {
+  width: min(720px, 96vw);
+  height: 100%;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 12px;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 4px 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #e8e8e8;
+  flex-wrap: wrap;
+}
+.chatHeader .chatRecord {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c9a94a;
+}
+.chatHeader .chatRecord b { color: #e8c96a; }
+
+.chatHeader .chatData {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9fb0c0;
+}
+.chatHeader .chatData b { color: #7fd4ff; }
+
+.chatLog {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #33363c transparent;
+}
+.chatLog::-webkit-scrollbar { width: 6px; }
+.chatLog::-webkit-scrollbar-thumb { background: #33363c; border-radius: 3px; }
+
+.msg {
+  max-width: 80%;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  animation: msgIn 0.18s ease;
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.msgUser {
+  align-self: flex-end;
+  background: #2b4a68;
+  color: #eaf3fb;
+  border-bottom-right-radius: 4px;
+}
+
+.msgAgent {
+  align-self: flex-start;
+  background: #1e2126;
+  color: #e4e6e8;
+  border-bottom-left-radius: 4px;
+}
+
+.agentName { font-size: 11px; color: #9aa0a6; margin-bottom: 3px; }
+
+.agentError {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-weight: 700;
+  color: #ff6b6b;
+  font-size: 13px;
+  margin: 3px 0 6px;
+}
+
+.agentStats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+  color: #c9ced4;
+}
+
+.agentRecordTag { color: #e8c96a; font-weight: 700; }
+
+.agentText { margin-top: 4px; color: #d6dade; }
+.agentText + .agentText { margin-top: 6px; }
+
+.typing { color: #9aa0a6; font-style: italic; }
+.typing span {
+  display: inline-block;
+  width: 5px; height: 5px;
+  margin: 0 1px;
+  border-radius: 50%;
+  background: #9aa0a6;
+  animation: dotPulse 1s infinite;
+}
+.typing span:nth-child(1) { animation-delay: 0s; }
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotPulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+.chatChips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 2px;
+  scrollbar-width: none;
+}
+.chatChips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: #cfd4d9;
+  background: #1a1d22;
+  border: 1px solid #33363c;
+  border-radius: 16px;
+  cursor: pointer;
+}
+.chip:hover { background: #262a31; color: #fff; }
+
+/* магазинные чипы — заметно отличаются от обычных подсказок */
+.chipShop {
+  background: #241d0c;
+  border-color: #8a6d1f;
+  color: #e8c96a;
+}
+.chipShop:hover {
+  background: #352a10;
+  border-color: #b08c2a;
+  color: #ffe9a3;
+}
+
+.chatInputRow { display: flex; gap: 8px; align-items: center; }
+
+#chatInput {
+  flex: 1;
+  padding: 11px 16px;
+  background: #1e2126;
+  border: 1px solid #33363c;
+  border-radius: 22px;
+  color: #e8e8e8;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  user-select: text;
+}
+#chatInput:focus { border-color: #4a5560; }
+#chatInput:disabled { opacity: 0.5; }
+
+.chatSendBtn {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #3a6fe0;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+.chatSendBtn:hover { background: #4a7ef0; }
+.chatSendBtn:disabled { opacity: 0.4; cursor: default; }
+
+.chatFoot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  font-size: 12px;
+  color: #8a8f95;
+}
+.chatMini {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  color: #8a8f95;
+  font-size: 12px;
+  cursor: pointer;
+}
+.chatMini:hover { color: #fff; }
+.chatMini.off { text-decoration: line-through; opacity: 0.5; }
+.chatHint { margin-left: auto; }
+
+/* ---------------- HUD ---------------- */
+.hudLayer { pointer-events: none; }
+
+.xpWrap {
+  position: absolute; top: 0; left: 0; right: 0;
+  padding: 10px 16px 6px;
+  display: flex; align-items: center; gap: 12px;
+}
+.xpBar {
+  flex: 1;
+  height: 14px;
+  background: rgba(8, 20, 36, 0.85);
+  border: 1.5px solid rgba(0, 200, 255, 0.45);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.xpFill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #0090ff, #00e5ff);
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.7);
+  transition: width 0.15s linear;
+}
+.xpLevel {
+  font-size: 15px; font-weight: 700;
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.7);
+  white-space: nowrap;
+}
+
+.timeBox {
+  position: absolute; top: 34px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px; font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-shadow: 0 0 14px rgba(0, 229, 255, 0.6);
+}
+
+.scoreBox {
+  position: absolute; top: 36px; right: 18px;
+  font-size: 17px; font-weight: 600;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(255, 210, 74, 0.5);
+  text-align: right;
+}
+
+.ctxWrap {
+  position: absolute; left: 18px; bottom: 18px;
+  width: min(360px, 40vw);
+}
+.ctxTitle {
+  font-size: 12px; letter-spacing: 0.18em;
+  color: rgba(160, 220, 250, 0.85);
+  margin-bottom: 5px;
+}
+.ctxBar {
+  height: 20px;
+  background: rgba(8, 20, 36, 0.85);
+  border: 1.5px solid rgba(0, 200, 255, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ctxFill {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, #00a2ff, #00e5ff);
+  box-shadow: 0 0 14px rgba(0, 200, 255, 0.65);
+  transition: width 0.12s linear;
+}
+.ctxFill.mid { background: linear-gradient(90deg, #ff9a1f, #ffd24a); box-shadow: 0 0 14px rgba(255, 180, 40, 0.6); }
+.ctxFill.low { background: linear-gradient(90deg, #ff2b48, #ff7a1f); box-shadow: 0 0 16px rgba(255, 60, 80, 0.8); animation: ctxPulse 0.6s infinite alternate; }
+
+@keyframes ctxPulse { from { opacity: 0.7; } to { opacity: 1; } }
+
+.weaponsBox {
+  position: absolute; right: 18px; bottom: 18px;
+  display: flex; gap: 8px; flex-direction: row-reverse;
+}
+.wicon {
+  width: 42px; height: 42px;
+  background: rgba(8, 20, 36, 0.8);
+  border: 1.5px solid rgba(0, 200, 255, 0.4);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.wlvl {
+  position: absolute; bottom: -2px; right: 2px;
+  font-size: 10px; font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+}
+
+.announceBox {
+  position: absolute; top: 22%; left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 10px 30px;
+  border: 2px solid var(--cyan);
+  border-radius: 6px;
+  background: rgba(4, 12, 24, 0.8);
+  box-shadow: 0 0 24px rgba(0, 200, 255, 0.35);
+  opacity: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ---------------- overlays ---------------- */
+.overlay {
+  align-items: center; justify-content: center;
+  background: rgba(2, 5, 12, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  min-width: 380px; max-width: 560px;
+  padding: 34px 40px;
+  background: var(--panel);
+  border: 2px solid rgba(0, 200, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(0, 160, 255, 0.25);
+  text-align: center;
+}
+
+.panel h2 {
+  font-size: 30px;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.7);
+  margin-bottom: 20px;
+}
+
+.settingRow { margin: 10px 0; font-size: 15px; }
+.settingRow label {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  color: rgba(180, 225, 250, 0.9);
+}
+.settingRow input[type="range"] { flex: 1; accent-color: var(--cyan); }
+.settingRow input[type="checkbox"] { accent-color: var(--cyan); transform: scale(1.3); }
+
+.panel .bigButton { width: 100%; margin-top: 22px; font-size: 18px; padding: 14px; }
+.panel .midButton { width: 100%; }
+
+/* ---------------- level up ---------------- */
+.levelupInner { text-align: center; max-width: 960px; padding: 20px; }
+
+.levelupTitle {
+  font-size: 32px;
+  letter-spacing: 0.18em;
+  color: var(--cyan);
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+}
+.levelupSub { margin-top: 8px; color: rgba(170, 215, 245, 0.75); font-size: 14px; }
+
+.levelCards {
+  margin-top: 30px;
+  display: flex; gap: 20px; justify-content: center; align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.card {
+  --accent: #00e5ff;
+  width: 260px; min-height: 230px;
+  padding: 22px 20px;
+  background: linear-gradient(180deg, rgba(10, 26, 44, 0.95), rgba(6, 14, 26, 0.95));
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 30px var(--accent);
+}
+.cardIcon { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 8px var(--accent)); }
+.cardTitle { font-size: 18px; font-weight: 700; color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+.cardDesc { font-size: 13px; line-height: 1.45; color: rgba(200, 230, 250, 0.85); }
+.cardKey {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 12px; color: rgba(140, 210, 255, 0.5);
+}
+
+/* ---------------- game over report ---------------- */
+.report { text-align: left; min-width: min(520px, 92vw); }
+
+.reportHeader {
+  font-size: 21px; font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+  text-shadow: 0 0 14px rgba(0, 229, 255, 0.6);
+}
+.reportSub {
+  margin-top: 4px;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: rgba(255, 90, 110, 0.85);
+  border-bottom: 1px dashed rgba(0, 200, 255, 0.3);
+  padding-bottom: 14px;
+}
+
+.reportGrid { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.reportItem {
+  display: flex; justify-content: space-between;
+  font-size: 15px;
+  color: rgba(190, 225, 250, 0.85);
+  padding: 6px 10px;
+  background: rgba(10, 26, 46, 0.5);
+  border-left: 3px solid rgba(0, 200, 255, 0.6);
+}
+.reportItem b { color: var(--white); }
+
+.newRecord {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 15px; font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-shadow: 0 0 14px rgba(255, 210, 74, 0.7);
+  animation: recPulse 1s infinite alternate;
+}
+@keyframes recPulse { from { opacity: 0.6; } to { opacity: 1; } }
+
+.reportVerdict {
+  margin-top: 16px;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--magenta);
+  text-shadow: 0 0 12px rgba(255, 43, 214, 0.5);
+}
+.reportJoke {
+  margin-top: 8px;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(160, 205, 235, 0.7);
+}
+
+.report .bigButton { margin-top: 22px; }
