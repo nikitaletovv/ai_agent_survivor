@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>AI Agent Survivors</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ============ MAIN MENU: чат с агентом ============ -->
+  <div id="screenMenu" class="screen">
+    <div class="chatShell">
+      <div class="chatHeader">AI Agent Survivors
+        <span class="chatData">ДАННЫЕ: <b id="menuData">0</b></span>
+        <span class="chatRecord">РЕКОРД&nbsp;<b id="menuBest">0</b>&nbsp;·&nbsp;ВРЕМЯ&nbsp;<b id="menuBestTime">00:00</b></span>
+      </div>
+
+      <div id="chatLog" class="chatLog"></div>
+
+      <div id="chatChips" class="chatChips"></div>
+
+      <div id="shopChips" class="chatChips"></div>
+
+      <div class="chatInputRow">
+        <input id="chatInput" type="text" maxlength="120" autocomplete="off" spellcheck="false" placeholder="Спросите о чём угодно">
+        <button id="chatSend" class="chatSendBtn" title="Отправить">➤</button>
+      </div>
+
+      <div class="chatFoot">
+        <button id="btnMusicToggle" class="chatMini">Музыка</button>
+        <button id="btnSfxToggle" class="chatMini">Звуки</button>
+        <span class="chatHint">WASD — движение · оружие бьёт само · Esc — пауза</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HUD ============ -->
+  <div id="hud" class="screen hudLayer">
+    <div class="xpWrap">
+      <div class="xpBar"><div id="hudXpFill" class="xpFill"></div></div>
+      <div id="hudLevel" class="xpLevel">УР. 1</div>
+    </div>
+
+    <div class="timeBox" id="hudTime">00:00</div>
+    <div class="scoreBox" id="hudScore">0 ОЧКОВ</div>
+
+    <div class="ctxWrap">
+      <div class="ctxTitle" id="hudCtxText">КОНТЕКСТ 100 / 100</div>
+      <div class="ctxBar"><div id="hudCtxFill" class="ctxFill"></div></div>
+    </div>
+
+    <div id="hudWeapons" class="weaponsBox"></div>
+
+    <div id="announceBox" class="announceBox"></div>
+  </div>
+
+  <!-- ============ PAUSE ============ -->
+  <div id="screenPause" class="screen overlay">
+    <div class="panel">
+      <h2>ПАУЗА</h2>
+      <div class="settingRow">
+        <label>Музыка
+          <input type="checkbox" id="pauseMusicCheck" checked>
+          <input type="range" id="pauseMusicRange" min="0" max="100" value="60">
+        </label>
+      </div>
+      <div class="settingRow">
+        <label>Звуки
+          <input type="checkbox" id="pauseSfxCheck" checked>
+          <input type="range" id="pauseSfxRange" min="0" max="100" value="80">
+        </label>
+      </div>
+      <button id="btnPauseResume" class="bigButton">ПРОДОЛЖИТЬ</button>
+      <button id="btnPauseRestart" class="midButton">НАЧАТЬ ЗАНОВО</button>
+      <button id="btnPauseMenu" class="midButton dim">ГЛАВНОЕ МЕНЮ</button>
+    </div>
+  </div>
+
+  <!-- ============ LEVEL UP ============ -->
+  <div id="screenLevelUp" class="screen overlay">
+    <div class="levelupInner">
+      <h2 class="levelupTitle">НОВЫЙ УРОВЕНЬ АГЕНТА</h2>
+      <div class="levelupSub">Выберите одно улучшение. Контекст ждёт.</div>
+      <div id="levelCards" class="levelCards"></div>
+    </div>
+  </div>
+
+  <!-- ============ GAME OVER ============ -->
+  <div id="screenGameOver" class="screen overlay">
+    <div class="panel report">
+      <div class="reportHeader">ОТЧЁТ ОБ ЭФФЕКТИВНОСТИ АГЕНТА</div>
+      <div class="reportSub">Мониторинг завершён: контекст исчерпан</div>
+
+      <div class="reportGrid">
+        <div class="reportItem"><span>Время выживания</span><b id="goTime">00:00</b></div>
+        <div class="reportItem"><span>Итоговый счёт</span><b id="goScore">0</b></div>
+        <div class="reportItem"><span>Уничтожено ошибок</span><b id="goKills">0</b></div>
+        <div class="reportItem"><span>Достигнутый уровень</span><b id="goLevel">1</b></div>
+        <div class="reportItem"><span>Заработано данных</span><b id="goData">0</b></div>
+        <div class="reportItem"><span>Личный рекорд</span><b id="goBest">0</b></div>
+      </div>
+
+      <div id="goNewRecord" class="newRecord">НОВЫЙ ЛИЧНЫЙ РЕКОРД</div>
+
+      <div class="reportVerdict" id="goVerdict">КЛАССИФИКАЦИЯ: ...</div>
+      <div class="reportJoke" id="goJoke"></div>
+
+      <button id="btnAgain" class="bigButton">ЗАПУСТИТЬ ЕЩЁ РАЗ</button>
+      <button id="btnGoMenu" class="midButton dim">ГЛАВНОЕ МЕНЮ</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/pickups.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/weapons.js"></script>
+  <script src="js/meta.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
