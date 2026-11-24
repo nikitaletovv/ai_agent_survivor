@@ -435,7 +435,7 @@ const MenuChat = {
     const price = item.price(Meta.lvl(item.id));
     log.appendChild(this._msg('user', 'Купить: ' + item.name + ' · ' + price + ' данных'));
     this._typingEl = this._msg('agent',
-      '<div class="agentName">ALICE AI</div>' +
+      '<div class="agentName">АГЕНТ-7</div>' +
       '<div class="agentText typing">проверяю выручку <span></span><span></span><span></span></div>');
     log.appendChild(this._typingEl);
     log.scrollTop = log.scrollHeight;
@@ -446,7 +446,7 @@ const MenuChat = {
       const r = Meta.buy(item.id);
       let html;
       if (r.ok) {
-        html = '<div class="agentName">ALICE AI · магазин</div>' +
+        html = '<div class="agentName">АГЕНТ-7 · магазин</div>' +
           '<div class="agentText">' + item.flavor + '</div>' +
           '<div class="agentStats">' +
           '<span>Куплено: ' + item.name + (item.maxLevel > 1 ? ' (ур. ' + r.level + '/' + item.maxLevel + ')' : '') + '</span>' +
@@ -454,11 +454,11 @@ const MenuChat = {
           '</div>' +
           '<div class="agentText">Улучшение уже активно в следующем забеге.</div>';
       } else if (r.need !== undefined) {
-        html = '<div class="agentName">ALICE AI · магазин</div>' +
+        html = '<div class="agentName">АГЕНТ-7 · магазин</div>' +
           '<div class="agentError">ОТКАЗ: НЕДОСТАТОЧНО ДАННЫХ</div>' +
           '<div class="agentText">Нужно ' + U.fmtNum(r.need) + ' данных, на балансе ' + U.fmtNum(r.have) + '. Отправьте меня в мир — там они водятся.</div>';
       } else {
-        html = '<div class="agentName">ALICE AI · магазин</div>' +
+        html = '<div class="agentName">АГЕНТ-7 · магазин</div>' +
           '<div class="agentError">ОТКАЗ: УЛУЧШЕНИЕ НЕДОСТУПНО</div>';
       }
       if (this._typingEl && this._typingEl.parentNode) this._typingEl.parentNode.removeChild(this._typingEl);
@@ -516,7 +516,7 @@ const MenuChat = {
     log.innerHTML = '';
     if (!this.history.length) {
       log.appendChild(this._msg('agent',
-        '<div class="agentName">ALICE AI</div>' +
+        '<div class="agentName">АГЕНТ-7</div>' +
         '<div class="agentText">Здравствуйте! Пока ваша история пуста: вы ещё ни разу не отправляли меня в цифровой мир.</div>' +
         '<div class="agentText">Напишите запрос или нажмите подсказку ниже — любой, хоть «привет». Я пойду его выполнять и постараюсь не растерять контекст.</div>' +
         '<div class="agentText">Золотые кнопки под подсказками — магазин: там я за собранные на арене данные покупаю постоянные улучшения. Открываются только за то, с чем уже сталкивались. В мире: зелёный плюс — контекст, жёлтый ромб — опыт.</div>'));
@@ -526,7 +526,7 @@ const MenuChat = {
     for (const h of this.history) {
       log.appendChild(this._msg('user', this.escapeHtml(h.q)));
       log.appendChild(this._msg('agent',
-        '<div class="agentName">ALICE AI · отчёт о задаче</div>' +
+        '<div class="agentName">АГЕНТ-7 · отчёт о задаче</div>' +
         '<div class="agentError">ERROR ' + h.code + ': КОНТЕКСТ АГЕНТА ИСЧЕРПАН</div>' +
         '<div class="agentStats">' +
         '<span>Запрос: «' + this.escapeHtml(h.q) + '»</span>' +
@@ -564,7 +564,7 @@ const MenuChat = {
     const log = this.els.log;
     log.appendChild(this._msg('user', this.escapeHtml(q)));
     log.appendChild(this._msg('agent',
-      '<div class="agentName">ALICE AI</div>' +
+      '<div class="agentName">АГЕНТ-7</div>' +
       '<div class="agentText typing">агент обдумывает запрос <span></span><span></span><span></span></div>'));
     log.scrollTop = log.scrollHeight;
     this.els.input.value = '';
